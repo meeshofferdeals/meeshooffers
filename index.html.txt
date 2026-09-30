@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meesho - Product Buy</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f4f4; text-align: center; }
+        
+        .header { background-color: #9c27b0; color: white; padding: 15px; font-size: 20px; font-weight: bold; }
+        
+        .container { max-width: 400px; margin: 20px auto; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .product-img { width: 100%; border-radius: 6px; }
+        .title { font-size: 16px; margin: 10px 0; text-align: left; font-weight: bold; }
+        .price { color: #000; font-size: 18px; font-weight: bold; text-align: left; }
+        
+        .buy-btn { background-color: #9c27b0; color: white; width: 100%; border: none; padding: 12px; margin-top: 15px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        
+        .address-box { display: none; margin-top: 20px; background: #eef2f5; padding: 15px; border-radius: 6px; text-align: left; }
+        .address-box input { width: 100%; padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">meesho</div>
+
+    <div class="container">
+        <!-- Product Image (Mee Image Name saree) -->
+        <img src="product1.jpg" alt="Meesho Product" class="product-img">
+        <div class="title">Trendy Printed Women Kurti</div>
+        <div class="price">₹299 <span style="color: green; font-size: 14px;">(70% Off)</span></div>
+        
+        <!-- Add / Buy Button -->
+        <button class="buy-btn" onclick="checkLocationAndBuy()">Add to Cart / Buy Now</button>
+
+        <!-- Location Permission tharvatha kanipinche Address Section -->
+        <div class="address-box" id="addressBox">
+            <h3 style="color: #9c27b0; margin-bottom: 10px;">Delivery Address</h3>
+            <p id="locStatus" style="font-size: 12px; color: green; font-weight: bold;"></p>
+            
+            <input type="text" placeholder="Full Name">
+            <input type="text" placeholder="Mobile Number">
+            <input type="text" placeholder="Pincode / City" id="pincode">
+            <input type="text" placeholder="House No, Building Name">
+            
+            <button class="buy-btn" style="background-color: #28a745;">Continue to Payment</button>
+        </div>
+    </div>
+
+    <script>
+        function checkLocationAndBuy() {
+            // Geolocation adagadam
+            if (navigator.geolocation) {
+                alert("Please allow location access to check delivery availability for your area.");
+                
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        // User 'Allow' nokkinappudu
+                        document.getElementById("addressBox").style.display = "block";
+                        document.getElementById("locStatus").innerText = "✔ Location Detected Automatically!";
+                    },
+                    function(error) {
+                        // User 'Block' nokkina leda Error ochina
+                        alert("Location access denied. Please enter address manually.");
+                        document.getElementById("addressBox").style.display = "block";
+                        document.getElementById("locStatus").innerText = "✖ Location not detected. Fill manually.";
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser.");
+                document.getElementById("addressBox").style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
